@@ -1,0 +1,43 @@
+{% extends 'master.html' %}
+
+{% block title %}
+
+  {% load static %}
+
+  <title>Home</title>
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  
+{% endblock title %}
+
+{% block content%}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 col-xs-12">             
+        <div class="row">
+          {% for product in product %}
+          <div class="col-md-3 col-xs-6">
+            <a class="product-card" href="{% url 'productview' product.id %}" style="text-decoration:none;">                      
+             <div class="items" id="item1">
+               <img src="{{ product.images.url }}">
+               <input type="button" value="View Item" onclick="cart('item1')">
+               {% comment %} <p>Simple Navy Blue T-Shirt</p> {% endcomment %}
+               <p>{{ product.name }}</p>
+               <p>Price - {{ product.price }}</p>
+               <input type="hidden" id="item1_name" value="Simple Navy Blue T-Shirt">
+               <input type="hidden" id="item1_price" value="$95">
+             </div>
+            </a>                
+           </div>
+          {% endfor %} 
+        </div>               
+    </div>
+  </div>
+</div>
+
+
+{%endblock content%}
+
+{% block javascript %}
+<script src="{% static 'js/home.js' %}"></script>
+{% endblock javascript %}

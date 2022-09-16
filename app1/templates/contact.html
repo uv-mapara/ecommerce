@@ -1,0 +1,58 @@
+{% extends 'master.html' %}
+
+{% block title %}
+
+  {% load static %}
+
+  <title>Contact</title>
+  <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+  
+{% endblock title %}
+
+{% block content%}
+   {% comment %} <div class="caption">
+      <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-xs-12">
+                <h2 class="text-center">Contact</h2>
+            </div>
+        </div>
+      </div>
+   </div> {% endcomment %}
+
+   <div class="FormBody">
+      <div class="container">
+        <div class="row">            
+            <div class="col-md-12 col-xs-12">
+             <div id="DivDisplayMsg" style="display:none;">
+                 <button class="close" data-close="alert"></button>
+                 <span id="SpnMsgHeader"></span>
+                 <span id="SpnErrorMsg"></span>
+             </div>
+         </div>        
+         <div class="row" id="post">
+             {% csrf_token %}
+             <div class="col">
+                <input type="text" class="form-control firstname" id="firstname" name="firstname" placeholder="First name">
+             </div>
+             <div class="col">
+                <input type="text" class="form-control firstname" id="lastname" name="lastname" placeholder="Last name">
+             </div>
+             <div class="col-md-12 mt-3">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Your Email" onblur="isRule(this, objEmail)" onkeyup="isRule(this, objEmail)" onkeypress="isRule(this, objEmail)">
+            </div>
+            <div class="col-md-12 mt-3">
+                <textarea class="form-control" class="message" id="message" name="message" col="10" placeholder="Your Message" required="" style="height:265px;resize:none;"></textarea>
+            </div>            
+            <div class="col-md-12 mt-3">
+                <button type="submit" id="btnSubmit" class="btn submit">Send Message</button>
+            </div>             
+         </div>
+      </div>
+   </div>
+{%endblock content%}
+
+{% block javascript %}
+<script src="{% static 'js/contact.js' %}"></script>
+{% endblock javascript %}
+

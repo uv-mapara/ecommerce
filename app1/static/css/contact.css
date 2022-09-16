@@ -1,0 +1,15 @@
+.FormBody{
+    margin-top:7rem;
+}
+.form-control{
+    outline:none !important;    
+}
+.form-control:focus{
+    outline:none !important;
+    box-shadow: none !important;
+    border-color:#183661 !important;
+}
+#btnSubmit{
+    background-color:#183661;
+    color:#fff;    
+}
