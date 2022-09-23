@@ -1,12 +1,15 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse,JsonResponse
-from .models import Signup,Category,Product,Contact
+from django.contrib.auth.decorators import login_required
+from cart.cart import Cart
+from .models import Signup,Category,Product,Mycart,Contact
 from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail
 from django.http import JsonResponse
 import random
 import json
+
 # import smtplib, ssl
 
 # Create your views here.
@@ -75,7 +78,7 @@ def login(request):
                 return JsonResponse({'opstatus':'PasswordError'})                
         except:
             return JsonResponse({'opstatus':'EmailError'})
-    return render(request,'login.html') 
+    return render(request,'login.html')           
 
 def home(request):
     if request.session.has_key('email'):
@@ -85,9 +88,15 @@ def home(request):
         per = Signup.objects.get(email=user1)
         print(per.username) 
 
-        category=Category.objects.all()
-        product=Product.objects.all()
-    return render(request,"home.html",{'per':per,'category':category,'product':product}) 
+        category=Category.objects.all()                
+
+        categoryID=request.GET.get('category')
+        if categoryID:
+            product=Product.objects.all().filter(sub_category=categoryID)
+        else:
+            product=Product.objects.all()        
+    return render(request,"home.html",{'per':per,'category':category,'product':product})     
+    
 
 def logout(request):
     if request.session.has_key('email'):
@@ -157,3 +166,40 @@ def contact(request):
         obj.message= request.POST['message'] 
         obj.save()                               
     return render(request,'contact.html')
+
+def add_to_cart(request,pk):
+    if request.session.has_key('email'):
+        per = Signup.objects.get(email=request.session['email'])
+        p = get_object_or_404(Product, pk=pk)
+        if request.method == 'POST':
+            if Mycart.objects.filter(product__id=p.id, user__id=per.id,status=False).exists():
+                messages.warning(request, 'This item is already in the cart')
+                return render(request, 'cart_detail.html', {'p': p, 'per': per})
+            else:
+                cart=Mycart()
+                cart.user=per
+                cart.product=p
+                cart.save()
+                return redirect('showmycart')
+    return render(request, 'cart_detail.html', {'p': p, 'per': per})   
+def show_mycart(request):
+    if request.session.has_key('email'):
+        obj = Signup.objects.get(email=request.session['email'])
+        all = Mycart.objects.filter(user_id=obj.id)
+        l=[]
+        total=0
+        for i in all:
+            l.append(i.product)
+            total=total+i.product.price
+        print(total)
+        return render(request,'cart_detail.html',{'al':l,'all':all,'n':obj,'total':total})
+    else:
+        return redirect('login')
+    return render(request,'cart_detail.html')
+
+def remove_cart(request,id):
+    if request.session.has_key('email'):
+        obj = Signup.objects.get(email=request.session['email'])
+        y = get_object_or_404(Mycart,product=id,user_id=obj.id)
+        y.delete()
+        return redirect('showmycart')

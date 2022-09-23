@@ -4,7 +4,7 @@
 	padding:20px;
 	background-color:white;
 	width:250px;
-	height:300px;
+	height:305px;
 	margin-top:20px;
 	box-shadow:0px 0px 10px 0px #A4A4A4;
 	box-sizing:border-box;
@@ -12,33 +12,21 @@
 	margin:20px;
 	position:relative;
 }
-.items:hover input[type="button"]
-{
-	display:block;
-}
-.items input[type="button"]
-{
-	display:none;
-	background:none;
-	background-color:#3ADF00;
-	width:200px;
-	height:50px;
-	border:none;
-	font-size:20px;
-	color:white;
-	position:absolute;
-	top:150px;
-	left:25px;
-	cursor:pointer;
-}
 .items img
 {
 	width:200px;
 	height:200px;
 }
-.items p
+.items p,span
 {
 	color: green;
+}
+.items .BtnAddCart{
+	background-color: #183661;
+    color: #fff;
+    padding: 5px 10px;
+	float:right;
+	cursor:pointer;
 }
 
 /* END PRODUCT CARD */

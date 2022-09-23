@@ -5,11 +5,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">    
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet' /> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link href="{% static 'css/master.css' %}" rel='stylesheet' >
     {% block title %}
 
@@ -97,28 +103,30 @@
                             <a class="nav-link menu-active dropdown-toggle text-danger category" data-toggle="dropdown" href="javascript:void(0)">{{ cat.name }}</a>                                                                                
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 {% for i in cat.subcategory_set.all %}                                 
-                                <a class="dropdown-item" href="javascript:void(0)">{{ i.name }}</a>
+                                <a class="dropdown-item" href="home?category={{ i.id }}">{{ i.name }}</a>
                                 {% endfor %}                                                       
                             </div>                                                     
                         </li>
                         {% endfor %}                                               
-                    </ul>                   
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown show m-auto">
-                            {% if per %}
+                    </ul>                                     
+                    <ul class="navbar-nav ml-auto ProfileUL">
+                        {% comment %} {% if request.session.email %}   {% endcomment %}
+                        <li class="nav-item dropdown show m-auto">                            
                             <a class="btn dropdown-toggle" href="#" role="button" id="ProfileMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{per.username}}
                             </a>                            
                             <div class="dropdown-menu" aria-labelledby="ProfileMenu">
                                 <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-user-circle-o mr-2"></i>MyProfile</a>
                                 {% comment %} <a class="dropdown-item" href="javascript:void(0)">Order</a> {% endcomment %}
-                                <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-shopping-cart mr-2"></i>My cart</a>                                                                
+                                <a class="dropdown-item" href="{% url 'showmycart' %}"><i class="fa fa-shopping-cart mr-2"></i>My cart<span class="badge badge-danger">{{q|length}}</span></a>                                                                
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item text-center" href="{% url 'logout' %}"><button class="BtnLogout">Logout</button></a>
-                            </div>                            
-                            {% endif %}                                                                                                                
-                        </li>                                                
-                    </ul>                                                           
+                            </div>                                                                                                                                                                                                    
+                        </li> 
+                        {% comment %} {% else %}  {% endcomment %}
+                        {% comment %} <li class="ml-3"><a href="{% url 'login' %}" class="text-light">Login</a></li>       {% endcomment %}
+                        {% comment %} {% endif %}                                            {% endcomment %}
+                    </ul>                                                                                                                                                          
                     </div>                 
                </div>  
             </nav>
@@ -138,6 +146,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
     <script src="{% static 'js/master.js' %}"></script>
 
     {% block javascript %}

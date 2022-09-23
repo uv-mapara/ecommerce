@@ -24,14 +24,22 @@ class SubCategory(models.Model):
 
 class Product(models.Model):
     categories = models.ManyToManyField(Category)
-    subcategory = models.ManyToManyField(SubCategory)
-    name = models.CharField(max_length=200)
-    price = models.IntegerField()
-    des=models.TextField(max_length=200)
-    images=models.ImageField(upload_to='pro_img',blank=True)
+    sub_category = models.ManyToManyField(SubCategory)
+    name = models.CharField(max_length=200,default='')
+    price = models.FloatField()    
+    des=models.TextField(max_length=200,default='')
+    image=models.ImageField(upload_to='pro_img',blank=True,default='')
+    date=models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.name
+
+class Mycart(models.Model):
+    user=models.ForeignKey(Signup, on_delete=models.CASCADE)
+    product=models.ForeignKey(Product, on_delete=models.CASCADE)
+    status=models.BooleanField(default=False)
+    added_on = models.DateTimeField(auto_now_add=True,null=True)
+    update_on= models.DateTimeField(auto_now_add=True,null=True)        
 
 class Contact(models.Model):
      firstname= models.CharField(max_length=200,blank = False,null = False)

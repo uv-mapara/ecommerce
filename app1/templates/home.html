@@ -16,18 +16,25 @@
     <div class="col-md-12 col-xs-12">             
         <div class="row">
           {% for product in product %}
-          <div class="col-md-3 col-xs-6">
-            <a class="product-card" href="{% url 'productview' product.id %}" style="text-decoration:none;">                      
+          <div class="col-md-3 col-xs-6">                                  
              <div class="items" id="item1">
-               <img src="{{ product.images.url }}">
-               <input type="button" value="View Item" onclick="cart('item1')">
+              <a class="product-card" href="{% url 'productview' product.id %}" style="text-decoration:none;">
+               <img src="{{ product.image.url }}">
+              </a>                             
                {% comment %} <p>Simple Navy Blue T-Shirt</p> {% endcomment %}
                <p>{{ product.name }}</p>
-               <p>Price - {{ product.price }}</p>
-               <input type="hidden" id="item1_name" value="Simple Navy Blue T-Shirt">
-               <input type="hidden" id="item1_price" value="$95">
-             </div>
-            </a>                
+               <span>${{ product.price }}</span>
+               <form action="{%url 'addtocart' product.pk %}" method="POST">
+                {% csrf_token %}
+                <a href="{%url 'showmycart' %}" style="text-decoration:none;">
+                <button type="submit" class="btn btn-success btn-block">
+                  <i class="fa fa shopping-cart"></i>
+                  Add To Cart
+                </button>
+              </a>
+              </form>
+              {% comment %} <a href="" class="BtnAddCart" id="BtnAddCart">Add To Cart</a>{% endcomment %}
+             </div>                           
            </div>
           {% endfor %} 
         </div>               
